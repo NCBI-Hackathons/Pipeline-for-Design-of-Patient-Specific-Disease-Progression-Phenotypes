@@ -1,4 +1,4 @@
-# **Pipeline for Design of Patient-Specific Disease Progression Phenotypes**
+﻿# **Pipeline for Design of Patient-Specific Disease Progression Phenotypes**
 
 - **Project:** Women-Led Hackathon 
 	- **Author(s):** Hampton Leonard, Ruth Chia, Sara Bandres-Ciga, Monica Diez-Fairen, and Mary B. Makarious 
@@ -41,9 +41,11 @@ Creating a mock dataset for testing purposes
 - Writer(s): Ruth C. and Sara BC
 
 **Goals:**
-- Realistic Goal: Apply linear mixed model with deep phenotyped Parkinson's Disease data to model progression that is patient specific and compare to genotype
-- Reach Goal: Use the pipeline with different phenotypes and assess different models
+- Realistic Goal: Apply linear mixed model with deep phenotyped Parkinson's Disease data to model progression that is patient specific 
+- Reach Goal: To apply 
 
 ## Proposed Workflow
+![Flowchart](https://lh3.googleusercontent.com/pqqyX4PsJ-w01KXpTY2KG1JCAMFfNtbw74usCyBlICGQgfVMlvxQkqxpwnrM00cxHh4lSH4LbOE)
+
 
 ## Files 

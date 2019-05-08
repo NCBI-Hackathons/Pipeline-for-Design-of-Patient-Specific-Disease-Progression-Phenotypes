@@ -41,8 +41,8 @@ Creating a mock dataset for testing purposes
 - Writer(s): Ruth C. and Sara BC
 
 **Goals:**
-- Realistic Goal: Apply linear mixed model with deep phenotyped Parkinson's Disease data to model progression that is patient specific 
-- Reach Goal: To apply 
+- Realistic Goal: Apply linear mixed model with deep phenotyped Parkinson's Disease data to model progression that is patient specific and compare to genotype
+- Reach Goal: Use the pipeline with different phenotypes and assess different models
 
 ## Proposed Workflow
 

@@ -45,7 +45,6 @@ Creating a mock dataset for testing purposes
 - Reach Goal: To apply pipeline to other diseases and compare other models to determine the best framework for creating patient-specific slopes
 
 ## Proposed Workflow
-![Flowchart](https://lh3.googleusercontent.com/pqqyX4PsJ-w01KXpTY2KG1JCAMFfNtbw74usCyBlICGQgfVMlvxQkqxpwnrM00cxHh4lSH4LbOE)
-
+![Flowchart](https://lh3.googleusercontent.com/fzTpiZlDceGy1ybiHlHBu5ve-qSJ36SB1X4HRxjQIOMysDlzD7eTAI8z6NmEvXoOmJp7WCQwz20 "Flowchart")
 
 ## Files 

@@ -1,0 +1,97 @@
+```{r}
+# NCBI Women Led Hackathon 2019
+  # Team Members: Hampton Leonard, Mary B Makarious, Ruth Chia, Sara Bandres-Ciga, Monica Diez-Fairen 
+  # Last Updated: 09.05.2019
+
+# Download the necessary packages if not already in environment 
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(data.table)) install.packages('data.table')
+if (!require(dplyr)) install.packages('dplyr')
+if (!require(ggplot2)) install.packages('ggplot2')
+if (!require(lme4)) install.packages('lme4')
+if (!require(RNOmni)) install.packages('RNOmni')
+if (!require(lmerTest)) install.packages('lmerTest')
+```
+
+
+```{r}
+# Load the necessary packages 
+library(tidyverse)
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(RNOmni)
+library(lme4)
+library(lmerTest)
+
+# Set working directory 
+setwd("/Users/makariousmb/Desktop/Hackathon_Code/Hackathon")
+```
+
+
+```{r}
+# Reordering...
+#ppmi <- fread("ppmi_hackathon_data.txt")
+
+#ppmi_reorder <- ppmi %>% select("ID", "TSTART", "UPDRS3", "STUDY_NAME", DOPA:UPDRS2, UPDRS4:YEARfDIAG)
+
+#write.table(ppmi_reorder, "reorder_ppmi_hackathon_data.txt",  sep = "\t", append = F, row.names = F, quote = F, col.names = T)
+#head(ppmi_reorder)
+```
+
+```{r}
+# read command line
+args <- commandArgs(trailingOnly=TRUE)
+if (length(args) != 3) {
+  stop("USAGE: Rscript patient_slopes.R inputPhenotypeFile CovariateList OutputFileName
+       where args[1] = inputPhenotypeFile
+             args[2] = CovariateList
+             args[3] = OutputFileName")
+}
+
+# Read in input files
+tbl <- fread(args[1], header = T)
+covs <- fread(args[2], header = F)
+
+```
+
+```{r}
+# Input
+tbl <- fread("reorder_ppmi_hackathon_data.txt", header = T)
+covs <- fread("covs.txt", header=F)
+
+# The downstream function when building the model to get the slope require the quantitative covariates to be scaled
+### Automatically scale all provided covariates
+tbl_scaled <- tbl
+for (i in 1:length(covs$V1)) {
+  name <- covs$V1[i]
+  varname <- paste(covs$V1[i],"scaled",sep="_")
+  tbl_scaled[[varname]] <- scale(tbl_scaled[[name]], center = F)
+}
+
+# Model 
+### to do - automatically put in correct phenotype of choice and covariates
+### to do - stepwise selection of covariates for best model
+
+colnames(tbl_scaled)[1] <- "ID"
+colnames(tbl_scaled)[2] <- "TimeFromBaseline"
+colnames(tbl_scaled)[3] <- "Phenotype"
+
+tbl_scaled$TimeFromBaseline_scaled <- scale(tbl_scaled$TimeFromBaseline, center = F)
+tbl_scaled$Phenotype_scaled <- scale(tbl_scaled$Phenotype, center = F)
+
+```
+
+```{r}
+x <- 1:length(covs$V1)
+covariates <- paste0(covs$V1[x], "_scaled",collapse = " + ")
+print(covariates)
+```
+
+```{r}
+# Input the linear mixed model
+slope <- lmer(as.formula(paste("Phenotype_scaled ~ ", paste(covariates, sep=""), "+ (TimeFromBaseline_scaled|ID)")), tbl_scaled, REML = T)
+
+summary(slope)
+
+```

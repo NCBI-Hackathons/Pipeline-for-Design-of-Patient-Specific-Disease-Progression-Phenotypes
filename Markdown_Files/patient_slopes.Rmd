@@ -1,8 +1,7 @@
 ```{r}
 # NCBI Women Led Hackathon 2019
-  # Script Written By: Hampton Leonard + Mary Makarious
-  # Team Members: Ruth Chia, Sara Bandres-Ciga, Monica Diez
-  # Last Updated: 08.05.2019
+  # Team Members: Hampton Leonard, Mary B Makarious, Ruth Chia, Sara Bandres-Ciga, Monica Diez-Fairen 
+  # Last Updated: 09.05.2019
 
 # Download the necessary packages if not already in environment 
 if (!require(tidyverse)) install.packages('tidyverse')
@@ -94,7 +93,9 @@ write.table(raneffect_updrs3, "patient_slopes.txt",  sep = "\t", append = F, row
 # Backwards elimination of random and fixed effects of the model 
 
 # Backward elimination using terms with default alpha-levels:
-(step_res <- step(updrs3_slope))
+  # Keep random effects
+  # Note: User should not put in more than one random effect 
+(step_res <- step(updrs3_slope, reduce.random = FALSE))
 back_elim_updrs3_model <- get_model(step_res)
 anova(back_elim_updrs3_model)
 
@@ -125,7 +126,18 @@ ggsave("Desnity_PatientSlopes_Step.png", slope_density_plot_2, width = 3, height
 slope_density_plot_2
   # With our PPMI data, these plots look the same (meaning the model was most useful with all the information)
 
+```
+
+```{r}
+##TODO: 
+  # Output summary statistics 
+  # Interpretation section on the README
+    # What each plot means 
+  # Plots to show the variance 
+  # Output error message for when the model coverges
+    # Output top 3 reasons why the model would converge 
 
 ```
+
 
 

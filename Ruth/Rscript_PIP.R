@@ -48,4 +48,9 @@ covariates <- paste0(covs$V1[x], "_scaled",collapse = " + ")
 pheno_slope <- lmer(as.formula(paste("Phenotype_scaled ~ ", paste(covariates, sep=""), "+ (TimeFromBaseline_scaled|ID)")), tbl_scaled, REML = T)
 summary(pheno_slope)
 
+## get specific slopes
+raneffect_pheno <- as.data.frame(ranef(pheno_slope)$ID)
+raneffect_pheno$`(Intercept)` <- NULL
+raneffect_pheno$ID <- rownames(raneffect_pheno)
+
 

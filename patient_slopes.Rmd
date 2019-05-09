@@ -11,6 +11,7 @@ if (!require(dplyr)) install.packages('dplyr')
 if (!require(ggplot2)) install.packages('ggplot2')
 if (!require(lme4)) install.packages('lme4')
 if (!require(RNOmni)) install.packages('RNOmni')
+if (!require(lmerTest)) install.packages('lmerTest')
 ```
 
 
@@ -22,10 +23,13 @@ library(dplyr)
 library(ggplot2)
 library(RNOmni)
 library(lme4)
+library(lmerTest)
+
+# Set working directory 
+setwd("/Users/makariousmb/Desktop/Hackathon_Code/Hackathon")
 
 # Read in the dataset
 tbl <- read.table("ppmi_hackathon_data.txt", header = T)
-
 ```
 
 
@@ -46,6 +50,7 @@ tbl_scaled$AAO <- scale(tbl_scaled$AAO, center = F)
   ## TODO: Add LDOPA and AGONIST data as covariates 
 updrs3_slope <- lmer(UPDRS3_scaled ~ FEMALE + YEARSEDUC + AAO + DOPA + AGONIST + (TSTART|ID), tbl_scaled, REML = T)
 
+# Get the summary
 summary(updrs3_slope)
 
 # Get patient-specific slopes 
@@ -63,7 +68,7 @@ raneffect_updrs3$ID <- rownames(raneffect_updrs3)
 
 ```{r}
 
-## ggplot-style Density Plot 
+# ggplot-style Density Plot 
 slope_density_plot <- ggplot(raneffect_updrs3, aes(x=TSTART)) +
   geom_density(color="darkblue", fill="lightblue", alpha=0.4) + 
   theme_bw() +
@@ -72,13 +77,55 @@ slope_density_plot <- ggplot(raneffect_updrs3, aes(x=TSTART)) +
   labs(x = "Slopes of Patients",
        y = "Density") 
 
-ggsave("Desnity_PatientSlopes.png", slope_density_plot, width = 5, height = 3.5, units = "in")
-  
+# Save the density plot 
+ggsave("Desnity_PatientSlopes.png", slope_density_plot, width = 3, height = 2, units = "in")
+
+# View the plot 
+slope_density_plot
 
 # output patient slopes
 ## to do - make output go to location specified by user
 
 write.table(raneffect_updrs3, "patient_slopes.txt",  sep = "\t", append = F, row.names = F, quote = F, col.names = T)
+```
+
+```{r}
+# Experimental
+# Backwards elimination of random and fixed effects of the model 
+
+# Backward elimination using terms with default alpha-levels:
+(step_res <- step(updrs3_slope))
+back_elim_updrs3_model <- get_model(step_res)
+anova(back_elim_updrs3_model)
+
+# Print out summary stats
+summary(back_elim_updrs3_model)
+
+```
+
+```{r}
+# Get patient-specific slopes following the backwards elimination step function 
+raneffect_updrs3_backelim <- as.data.frame(ranef(back_elim_updrs3_model)$ID)
+raneffect_updrs3_backelim$`(Intercept)` <- NULL
+raneffect_updrs3_backelim$ID <- rownames(raneffect_updrs3_backelim)
+
+# ggplot-style Density Plot after the step function 
+slope_density_plot_2 <- ggplot(raneffect_updrs3_backelim, aes(x=TSTART)) +
+  geom_density(color="darkgreen", fill="lightgreen", alpha=0.4) + 
+  theme_bw() +
+  ggtitle("Density of Patient Slopes following Backwards Elimination Stepwise Function") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  labs(x = "Slopes of Patients",
+       y = "Density") 
+
+# Save the density plot 
+ggsave("Desnity_PatientSlopes_Step.png", slope_density_plot_2, width = 3, height = 2, units = "in")
+
+# View the plot
+slope_density_plot_2
+  # With our PPMI data, these plots look the same (meaning the model was most useful with all the information)
+
+
 ```
 
 

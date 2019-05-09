@@ -44,5 +44,8 @@ tbl_scaled$Phenotype_scaled <- scale(tbl_scaled$Phenotype, center = F)
 x <- 1:length(covs$V1)
 covariates <- paste0(covs$V1[x], "_scaled",collapse = " + ")
 
-## this is not working ....
-slope <- substitute(lmer(tbl_scaled[[pheno_scaled]] ~ covariates + (tbl_scaled[[TimeSeriesColumn_scaled]]|ID), tbl_scaled, REML = T))
+## calculate slope
+pheno_slope <- lmer(as.formula(paste("Phenotype_scaled ~ ", paste(covariates, sep=""), "+ (TimeFromBaseline_scaled|ID)")), tbl_scaled, REML = T)
+summary(pheno_slope)
+
+

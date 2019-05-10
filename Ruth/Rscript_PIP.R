@@ -1,13 +1,6 @@
 #!/usr/bin/env Rscript
 # setwd("~/Desktop/Hackathon/")
 
-require("data.table")
-install.packages("lme4")
-install.packages("RNOmni")
-library(lme4)
-library(RNOmni)
-
-
 # read command line
 args <- commandArgs(trailingOnly=TRUE)
 if (length(args) != 3) {
@@ -17,6 +10,14 @@ if (length(args) != 3) {
              args[3] = OutputFileName")
 }
 
+# load required packages
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(data.table)) install.packages('data.table')
+if (!require(dplyr)) install.packages('dplyr')
+if (!require(ggplot2)) install.packages('ggplot2')
+if (!require(lme4)) install.packages('lme4')
+if (!require(RNOmni)) install.packages('RNOmni')
+if (!require(lmerTest)) install.packages('lmerTest')
 
 # Create output directory where result with be written to
 system("mkdir output")
@@ -64,7 +65,7 @@ slope_density_plot <- ggplot(raneffect_pheno, aes(x=raneffect_pheno[[colnames(ra
   theme_bw() +
   ggtitle(paste("Phenotype: ",user_input_PHENO,"\nDensity of Patient Slopes",sep="")) + 
   theme(plot.title = element_text(hjust = 0.5)) + 
-  labs(x = "Slopes of Patients",
+  labs(x = paste("Slopes of Patients\nCovariates Used:\n ",paste0(covs$V1[x], "_scaled",collapse = "\n"),sep=""),
        y = "Density") 
 ## Save the density plot 
 ggsave(paste("output/",user_input_PHENO,"_Density_PatientSlopes.png",sep=""), slope_density_plot, width = 3, height = 2, units = "in")

@@ -26,7 +26,7 @@ system("mkdir output")
 
 # Read in input files
 tbl <- fread(args[1],header=T)
-covs <- fread(args[2],header=F)
+covs <- fread(args[2],header=F, stringsAsFactor = F)
 
 # Create user defined variable names from input phenotype data
 user_input_ID <- colnames(tbl)[1]

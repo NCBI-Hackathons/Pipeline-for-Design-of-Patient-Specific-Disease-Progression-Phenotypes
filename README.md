@@ -33,11 +33,11 @@ We will be taking in deeply phenotyped information with more than two longitudin
 - Sys Admin(s): Mary M. and Monica D. 
 - Writer(s): Ruth C., Sara BC, Mary M.
 
-**Google Slides Presentation:** https://docs.google.com/presentation/d/1rgI67trHcSXJcJbRBbchXeuBXlhqQlZ6WP7-EDR2Whc/edit?usp=sharing
+**Google Slides Presentation:** [Google Slides Link](https://docs.google.com/presentation/d/1rgI67trHcSXJcJbRBbchXeuBXlhqQlZ6WP7-EDR2Whc/edit#slide=id.g59d5fa847a_0_0)
 
 
 ## Proposed Workflow
-![Workflow](https://github.com/NCBI-Hackathons/Pipeline-for-Design-of-Patient-Specific-Disease-Progression-Phenotypes/blob/master/Workflow.png "Workflow")
+![Workflow](https://github.com/NCBI-Hackathons/Pipeline-for-Design-of-Patient-Specific-Disease-Progression-Phenotypes/blob/master/Images/Workflow.png "Workflow")
 
 
 **Dataset Breakdown:**
@@ -48,7 +48,6 @@ We will be taking in deeply phenotyped information with more than two longitudin
 
 ### Environment Requirements 
 	```bash
-
 	sessionInfo()
 
 	R version 3.5.2 (2018-12-20)

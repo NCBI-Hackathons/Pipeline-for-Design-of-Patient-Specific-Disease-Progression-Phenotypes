@@ -6,6 +6,8 @@ library(dplyr)
 library(hydroGOF)
 library(rlist)
 library(knitr)
+library(RNOmni)
+
 
 getwd()
 db <- available.packages()
@@ -45,7 +47,7 @@ summary(updrs3_slope)
 (step_res <- step(updrs3_slope, reduce.random = FALSE))
 back_elim_updrs3_model <- get_model(step_res)
 anova(back_elim_updrs3_model)
-
+plot(back_elim_updrs3_model)
 
 # get parameters from selection for 70/30 split below
 coefs <- as.data.frame(summary(back_elim_updrs3_model)$coefficients)
@@ -131,6 +133,9 @@ raneffect_updrs3$`(Intercept)` <- NULL
 raneffect_updrs3$ID <- rownames(raneffect_updrs3)
 
 plot(density(raneffect_updrs3$TSTART))
+
+# normalization of the data
+raneffect_updrs3$TSTART = rankNorm(raneffect_updrs3$TSTART)
 
 ### should we normalize?
 

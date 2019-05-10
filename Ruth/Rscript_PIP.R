@@ -55,11 +55,12 @@ raneffect_pheno <- as.data.frame(ranef(pheno_slope)[[as.data.frame(ranef(pheno_s
 raneffect_pheno$`(Intercept)` <- NULL
 raneffect_pheno[[as.data.frame(ranef(pheno_slope))[1,1]]] <- rownames(raneffect_pheno)
 
-raneffect_pheno[[as.data.frame(ranef(pheno_slope))[1,1]]]
-dim(as.data.frame(ranef(pheno_slope)))[1]
+# normalization of the time data
+raneffect_pheno[[paste(user_input_Time,"_scaledFINAL_NORMALIZED",sep="")]] = rankNorm(raneffect_pheno[[paste(user_input_Time,"_scaledFINAL",sep="")]])
+raneffect_pheno <- raneffect_pheno[,c(2,1,3)]
 
 # Visualise patient-specific slopes with density plot
-slope_density_plot <- ggplot(raneffect_pheno, aes(x=raneffect_pheno[[colnames(raneffect_pheno)[1]]])) +
+slope_density_plot <- ggplot(raneffect_pheno, aes(x=raneffect_pheno[[colnames(raneffect_pheno)[3]]])) +
   geom_density(color="darkblue", fill="lightblue", alpha=0.4) + 
   theme_bw() +
   ggtitle(paste("Phenotype: ",user_input_PHENO,"\nDensity of Patient Slopes",sep="")) + 
@@ -73,4 +74,77 @@ ggsave(paste("output/",user_input_PHENO,"_Density_PatientSlopes.png",sep=""), sl
 write.table(raneffect_pheno, paste("output/",user_input_PHENO,"_patient_slopes.txt",sep=""),  sep = "\t", append = F, row.names = F, quote = F, col.names = T)
 
 ### Unbiased covariate selection: Stepwise selection of covariates for best model
+# Backwards elimination of random and fixed effects of the model 
+# Backward elimination using terms with default alpha-levels:
+# Keep random effects
+# Note: User should not put in more than one random effect 
+(step_res <- step(pheno_slope, reduce.random = FALSE))
+back_elim_pheno_model <- get_model(step_res)
+anova(back_elim_pheno_model)
+# Print out summary stats
+summary(back_elim_pheno_model)
+
+# get parameters from selection for 70/30 split below
+coefs <- as.data.frame(summary(back_elim_pheno_model)$coefficients)
+coefs <- coefs[2:nrow(coefs),]
+covariates_back <- rownames(coefs)
+covariates_back <- list.append(covariates_back, paste("(",user_input_Time,"_scaledFINAL|",user_input_ID, ")",sep=""))
+
+# get covariance matrices
+full_cov <- as.matrix(summary(pheno_slope)$vcov)
+full_cov <- as.data.frame(full_cov)
+
+back_cov <- as.matrix(summary(back_elim_pheno_model)$vcov)
+back_cov <- as.data.frame(back_cov)
+
+##### test and training set RMSE
+### RMSE for full model provided by user and for stepwise model
+
+# get unique patient IDs
+ID_list <- unique(tbl[[colnames(tbl)[1]]])
+train_list <- sample(ID_list, round(0.7 * (length(ID_list))), replace = F)
+test_list <- setdiff(ID_list, train_list)
+
+# make datasets 
+train_set <- tbl_scaled[tbl_scaled[[colnames(tbl)[1]]] %in% train_list,]
+test_set <- tbl_scaled[tbl_scaled[[colnames(tbl)[1]]] %in% test_list,]
+
+# full model provided by user
+model_test_full <- lmer(as.formula(paste(paste(user_input_PHENO,"_scaledFINAL ~ ",sep=""), paste(covariates, sep=""), "+", paste("(",user_input_Time,"_scaledFINAL|",user_input_ID, ")",sep=""))), tbl_scaled, REML = T)
+predicted_full <- predict(model_test_full, test_set, allow.new.levels=TRUE)
+RMSE <- rmse(predicted_full, test_set[[paste(user_input_PHENO,"_scaledFINAL",sep="")]])
+
+# backward selection model
+model_test_back <- lmer(as.formula(paste(paste(user_input_PHENO,"_scaledFINAL ~ ",sep=""), paste(covariates_back, collapse="+"))), train_set, REML = T)
+predicted_back <- predict(model_test_back, test_set, allow.new.levels=TRUE)
+RMSE_back <- rmse(predicted_back, test_set[[paste(user_input_PHENO,"_scaledFINAL",sep="")]])
+
+### make error table
+testing_error <- data.frame("RMSE_full_model" = numeric(1), "RMSE_selected_model" = numeric(1))
+testing_error$RMSE_full_model <- RMSE
+testing_error$RMSE_selected_model <- RMSE_back
+
+
+
+### to do - make error message output if model fails to converge 
+
+## make 2 separate outputs - correlaton matrix for full and back model
+full_cov_kable <- kable(full_cov)
+write(full_cov_kable, paste("output/",user_input_PHENO,"_full_model_cov.txt",sep=""))
+
+back_cov_kable <- kable(back_cov)
+write(back_cov_kable, paste("output/",user_input_PHENO,"_back_model_cov.txt",sep=""))
+
+## - rmse for full and back model
+error_kable <- kable(testing_error)
+write(error_kable, paste("output/",user_input_PHENO,"_error_back_model_cov.txt",sep=""))
+
+
+
+
+
+
+
+
+
 

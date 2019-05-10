@@ -47,7 +47,7 @@ We will be taking in deeply phenotyped information with more than two longitudin
 ## Requirements
 
 ### Environment Requirements 
-	```bash
+	```R
 	sessionInfo()
 
 	R version 3.5.2 (2018-12-20)

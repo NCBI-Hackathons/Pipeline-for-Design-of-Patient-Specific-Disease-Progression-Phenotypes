@@ -1,4 +1,5 @@
-# **Pipeline for Design of Patient-Specific Disease Progression Phenotypes**
+# **Patient Individualized Progression Slopes (PIPS)**
+**Pipeline for Design of Patient-Specific Disease Progression Phenotypes**
 
 - **Project:** Women-Led Hackathon 
 	- **Author(s):** Hampton Leonard, Ruth Chia, Sara Bandres-Ciga, Monica Diez-Fairen, and Mary B. Makarious 

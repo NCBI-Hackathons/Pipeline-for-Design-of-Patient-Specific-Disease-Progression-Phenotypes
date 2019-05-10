@@ -37,7 +37,7 @@ We will be taking in deeply phenotyped information with more than two longitudin
 
 
 ## Proposed Workflow
-![Workflow](https://ibb.co/S7bmGq2 "Workflow")
+![Workflow](https://github.com/NCBI-Hackathons/Pipeline-for-Design-of-Patient-Specific-Disease-Progression-Phenotypes/blob/master/Workflow.png "Workflow")
 
 
 **Dataset Breakdown:**

@@ -1,5 +1,4 @@
 #!/usr/bin/env Rscript
-# setwd("~/Desktop/Hackathon/")
 
 # read command line
 args <- commandArgs(trailingOnly=TRUE)

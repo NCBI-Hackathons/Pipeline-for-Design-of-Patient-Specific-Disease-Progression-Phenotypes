@@ -52,6 +52,16 @@ We will be taking in deeply phenotyped information with more than two longitudin
 	- Give info for the accepted format/data structure (this includes PCs if available)
 2.  Covariate file list
 	- Format required: one covariate name per line in a .txt file
+	
+### Data Format
+1. Phenotype file
+2. Covariate list
+	- Text file with one covariate per row for every covariate you want to include in the modeling
+	
+
+
+
+
 
 ## Output
 ### Data Output

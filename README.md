@@ -60,7 +60,7 @@ We will be taking in deeply phenotyped information with more than two longitudin
 	
 	# PPMI Example
 	ID	TSTART	UPDRS3	FEMALE  YEARSEDUC  AAO  DOPA  AGONIST 
-	100		61		12		0		16		63		0		0
+	100	61	12	0	16	63	0	0
 	```	
 
 2.  Covariate file list

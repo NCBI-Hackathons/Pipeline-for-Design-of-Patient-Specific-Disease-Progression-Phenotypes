@@ -67,7 +67,7 @@ slope_density_plot <- ggplot(raneffect_pheno, aes(x=raneffect_pheno[[colnames(ra
   labs(x = paste("Slopes of Patients\nCovariates Used:\n ",paste0(covs$V1[x], "_scaled",collapse = "\n"),sep=""),
        y = "Density") 
 ## Save the density plot 
-ggsave(paste("output/",user_input_PHENO,"_Density_PatientSlopes.png",sep=""), slope_density_plot, width = 3, height = 2, units = "in")
+ggsave(paste("output/",user_input_PHENO,"_Density_PatientSlopes.png",sep=""), slope_density_plot, width = 3, height = 4.5, units = "in")
 # output patient slopes
 ## Write out table of patient specific slopes 
 write.table(raneffect_pheno, paste("output/",user_input_PHENO,"_patient_slopes.txt",sep=""),  sep = "\t", append = F, row.names = F, quote = F, col.names = T)

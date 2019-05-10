@@ -4,7 +4,7 @@
 	- **Author(s):** Hampton Leonard, Ruth Chia, Sara Bandres-Ciga, Monica Diez-Fairen, and Mary B. Makarious 
 	- **PI:** --
 	- **Date Written:** 08.05.2019
-	- **Date Last Updated:** 08.05.2019
+	- **Date Last Updated:** 10.05.2019
 	- **Collaborators:** Hirotaka Iwaki
 
 ## Description + Objective
@@ -37,7 +37,7 @@ We will be taking in deeply phenotyped information with more than two longitudin
 
 
 ## Proposed Workflow
-![Workflow](https://lh3.googleusercontent.com/4JvI1XqRQCagcx1b3YRr5X791SR0A1ZKfABduYqefzEVd9Jav1pcuaTVUeRg8uq3yfqHwVosCSw "Workflow")
+![Workflow](https://lh3.googleusercontent.com/V5h84_WXJe8B_hYPm973EExppo9l9d8DijUXUWqS9KpesxVg77JoxQVYwOvY8He-J04qSuVssaA "Workflow")
 
 
 **Dataset Breakdown:**

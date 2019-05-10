@@ -102,16 +102,5 @@ We will be taking in deeply phenotyped information with more than two longitudin
 	FEMALE
 	```	
 
-	
-### Data Format
-1. Phenotype file
-2. Covariate list
-	- Text file with one covariate per row for every covariate you want to include in the modeling
-	
-
-
-
-
-
 ## Output
 ### Data Output

@@ -1,5 +1,6 @@
 # **Patient Individualized Progression Slopes (PIPS)**
 **Pipeline for Design of Patient-Specific Disease Progression Phenotypes**
+![Logo](https://github.com/NCBI-Hackathons/Pipeline-for-Design-of-Patient-Specific-Disease-Progression-Phenotypes/blob/master/Images/PIPS_Logo2.png)
 
 - **Project:** Women-Led Hackathon 
 	- **Author(s):** Hampton Leonard, Ruth Chia, Sara Bandres-Ciga, Monica Diez-Fairen, and Mary B. Makarious 

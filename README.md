@@ -37,7 +37,7 @@ We will be taking in deeply phenotyped information with more than two longitudin
 
 
 ## Proposed Workflow
-![Flowchart](https://lh3.googleusercontent.com/fzTpiZlDceGy1ybiHlHBu5ve-qSJ36SB1X4HRxjQIOMysDlzD7eTAI8z6NmEvXoOmJp7WCQwz20 "Flowchart")
+![Workflow](https://lh3.googleusercontent.com/5-4SikhkbUerPkuvtwKZ7vUJr23DdnUlh_3ybMPlG9voYednqfzEVTsfI9fjhf_FLEvP4lfNf4s "Workflow")
 
 
 **Dataset Breakdown:**

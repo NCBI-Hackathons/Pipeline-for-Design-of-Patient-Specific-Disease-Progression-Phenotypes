@@ -68,15 +68,6 @@ We will be taking in deeply phenotyped information with more than two longitudin
  	[1] hydroGOF_0.3-10   zoo_1.8-5         rlist_0.4.6.1     knitr_1.21        lmerTest_3.1-0    data.table_1.12.0 RNOmni_0.7.1      lme4_1.1-21       Matrix_1.2-15    
 	[10] forcats_0.4.0     stringr_1.4.0     dplyr_0.8.0.1     purrr_0.3.0       readr_1.3.1       tidyr_0.8.2       tibble_2.0.1      ggplot2_3.1.0     tidyverse_1.2.1  
 
-	loaded via a namespace (and not attached):
- 	[1] Rcpp_1.0.0         lubridate_1.7.4    lattice_0.20-38    FNN_1.1.3          class_7.3-15       assertthat_0.2.0   gstat_2.0-1        R6_2.4.0           cellranger_1.1.0  
-	[10] plyr_1.8.4         backports_1.1.3    e1071_1.7-1        highr_0.7          httr_1.4.0         pillar_1.3.1       rlang_0.3.1        lazyeval_0.2.1     readxl_1.3.0      
-	[19] rstudioapi_0.9.0   minqa_1.2.4        nloptr_1.2.1       labeling_0.3       splines_3.5.2      foreign_0.8-71     automap_1.0-14     munsell_0.5.0      broom_0.5.1       
-	[28] compiler_3.5.2     numDeriv_2016.8-1  modelr_0.1.4       xfun_0.4           pkgconfig_2.0.2    hydroTSM_0.5-1     tidyselect_0.2.5   intervals_0.15.1   reshape_0.8.8     
-	[37] spacetime_1.2-2    crayon_1.3.4       withr_2.1.2        MASS_7.3-51.1      grid_3.5.2         nlme_3.1-137       jsonlite_1.6       gtable_0.2.0       magrittr_1.5      
-	[46] scales_1.0.0       cli_1.0.1          stringi_1.3.1      sp_1.3-1           xml2_1.2.0         xts_0.11-2         generics_0.0.2     boot_1.3-20        tools_3.5.2       
-	[55] glue_1.3.0         hms_0.4.2          colorspace_1.4-0   BiocManager_1.30.4 maptools_0.9-5     rvest_0.3.2        haven_2.1.0       
-
 	```
 
 ### Data Input Requirements

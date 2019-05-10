@@ -17,9 +17,18 @@ if (length(args) != 3) {
              args[3] = OutputFileName")
 }
 
+
+# Create output directory where result with be written to
+system("mkdir output")
+
 # Read in input files
 tbl <- fread(args[1],header=T)
 covs <- fread(args[2],header=F)
+
+# Create user defined variable names from input phenotype data
+user_input_ID <- colnames(tbl)[1]
+user_input_Time <- colnames(tbl)[2]
+user_input_PHENO <- colnames(tbl)[3]
 
 # The downstream function when building the model to get the slope require the quantitative covariates to be scaled
 ### Automatically scale all provided covariates
@@ -30,27 +39,38 @@ for (i in 1:length(covs$V1)) {
   tbl_scaled[[varname]] <-scale(tbl_scaled[[name]], center = F)
 }
 
-# Model 
-### to do - automatically put in correct phenotype of choice and covariates
-### to do - stepwise selection of covariates for best model
-
-colnames(tbl_scaled)[1] <- "ID"
-colnames(tbl_scaled)[2] <- "TimeFromBaseline"
-colnames(tbl_scaled)[3] <- "Phenotype"
-
-tbl_scaled$TimeFromBaseline_scaled <- scale(tbl_scaled$TimeFromBaseline, center = F)
-tbl_scaled$Phenotype_scaled <- scale(tbl_scaled$Phenotype, center = F)
+# Modelling with lmer to get patient-specific slopes with user-defined covs or using unbiased step-based selection
+### User defined covariates: Automatically put in correct phenotype of choice and covariates
+tbl_scaled[[paste(colnames(tbl_scaled)[2],"_scaledFINAL",sep="")]] <- scale(tbl_scaled[[colnames(tbl_scaled)[2]]], center = F)
+tbl_scaled[[paste(colnames(tbl_scaled)[3],"_scaledFINAL",sep="")]] <- scale(tbl_scaled[[colnames(tbl_scaled)[3]]], center = F)
 
 x <- 1:length(covs$V1)
 covariates <- paste0(covs$V1[x], "_scaled",collapse = " + ")
 
-## calculate slope
-pheno_slope <- lmer(as.formula(paste("Phenotype_scaled ~ ", paste(covariates, sep=""), "+ (TimeFromBaseline_scaled|ID)")), tbl_scaled, REML = T)
+pheno_slope <- lmer(as.formula(paste(paste(user_input_PHENO,"_scaledFINAL ~ ",sep=""), paste(covariates, sep=""), "+", paste("(",user_input_Time,"_scaledFINAL|",user_input_ID, ")",sep=""))), tbl_scaled, REML = T)
 summary(pheno_slope)
 
-## get specific slopes
-raneffect_pheno <- as.data.frame(ranef(pheno_slope)$ID)
+## get patient-specific slopes
+raneffect_pheno <- as.data.frame(ranef(pheno_slope)[[as.data.frame(ranef(pheno_slope))[1,1]]])
 raneffect_pheno$`(Intercept)` <- NULL
-raneffect_pheno$ID <- rownames(raneffect_pheno)
+raneffect_pheno[[as.data.frame(ranef(pheno_slope))[1,1]]] <- rownames(raneffect_pheno)
 
+raneffect_pheno[[as.data.frame(ranef(pheno_slope))[1,1]]]
+dim(as.data.frame(ranef(pheno_slope)))[1]
+
+# Visualise patient-specific slopes with density plot
+slope_density_plot <- ggplot(raneffect_pheno, aes(x=raneffect_pheno[[colnames(raneffect_pheno)[1]]])) +
+  geom_density(color="darkblue", fill="lightblue", alpha=0.4) + 
+  theme_bw() +
+  ggtitle(paste("Phenotype: ",user_input_PHENO,"\nDensity of Patient Slopes",sep="")) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  labs(x = "Slopes of Patients",
+       y = "Density") 
+## Save the density plot 
+ggsave(paste("output/",user_input_PHENO,"_Density_PatientSlopes.png",sep=""), slope_density_plot, width = 3, height = 2, units = "in")
+# output patient slopes
+## Write out table of patient specific slopes 
+write.table(raneffect_pheno, paste("output/",user_input_PHENO,"_patient_slopes.txt",sep=""),  sep = "\t", append = F, row.names = F, quote = F, col.names = T)
+
+### Unbiased covariate selection: Stepwise selection of covariates for best model
 

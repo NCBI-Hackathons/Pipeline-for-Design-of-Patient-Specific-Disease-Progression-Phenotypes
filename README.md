@@ -47,11 +47,40 @@ We will be taking in deeply phenotyped information with more than two longitudin
 ## Requirements
 
 ### Environment Requirements 
-### Data Requirements
+...
+
+### Data Input Requirements
 1.  Deep longitudinal phenotype data
 	- Give info for the accepted format/data structure (this includes PCs if available)
+	- Avoid missing data in the input file 
+		- Formatting should match the example below:
+	```bash
+	# Format
+	ID 	TIME_SERIES	PHENOTYPE_OF_INTEREST	COV1 COV2	COV3 etc..
+	
+	# PPMI Example
+	ID	TSTART	UPDRS3	FEMALE  YEARSEDUC  AAO  DOPA  AGONIST 
+	100		61		12		0		16		63		0		0
+	```	
+
 2.  Covariate file list
-	- Format required: one covariate name per line in a .txt file
+	- Format required: one covariate name per line in a .txt file (this is case sensitive!)
+		 - Formatting should match the example below:
+	```bash
+	# Format
+	COV1
+	COV2
+	COV3
+	PC1
+	PC2
+	PC3
+	
+	# PPMI Example
+	DOPA
+	AGONIST
+	FEMALE
+	```	
+
 	
 ### Data Format
 1. Phenotype file

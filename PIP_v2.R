@@ -34,13 +34,55 @@ user_input_Time <- colnames(tbl)[2]
 user_input_PHENO <- colnames(tbl)[3]
 
 # The downstream function when building the model to get the slope require the quantitative covariates to be scaled
-### Automatically scale all provided covariates
-tbl_scaled <- tbl
-for (i in 1:length(covs$V1)) {
-  name <- covs$V1[i]
-  varname <- paste(covs$V1[i],"scaled",sep="_")
-  tbl_scaled[[varname]] <-scale(tbl_scaled[[name]], center = F)
+### Automatically scale continuous variables
+## function to check if binary or continuous
+
+check_var <- function(v){
+  v2 <- na.omit(v)
+  # get unique values
+  v_unique <- unique(v2)
+  # check if length is longer than 2
+  if(length(v_unique) > 2){
+    return("con")
+    
+  }else{
+    return("bin")
+  }
 }
+
+
+binary <- list()
+cont <- list()
+
+for(i in 1:length(covs$V1)){
+  if(check_var(tbl[,covs[i,]]) == "bin"){
+    binary[[i]] <- colnames(tbl[covs[i,]])
+  }else if(check_var(tbl[,covs[i,]]) == "con"){
+    cont[[i]] <- colnames(tbl[covs[i,]])
+  }
+}
+
+binary_df <- as.data.frame(do.call("rbind", binary))
+binary_df$V1 <- as.character(binary_df$V1)
+cont_df <- as.data.frame(do.call("rbind", cont))
+cont_df$V1 <- as.character(cont_df$V1)
+cont_df[2,]
+
+
+tbl_scaled <- tbl
+for (i in 1:length(cont_df$V1)) {
+  con_name <- cont_df$V1[i]
+  con <- paste(cont_df$V1[i],"scaled",sep="_")
+  tbl_scaled[[con]] <- scale(tbl_scaled[[con_name]], center = F)
+}
+
+
+for (i in 1:length(binary_df$V1)) {
+  bin_name <- binary_df$V1[i]
+  bin <- paste(binary_df$V1[i],"scaled",sep="_")
+  tbl_scaled[[bin]] <- tbl_scaled[[bin_name]]
+}
+
 
 # Modelling with lmer to get patient-specific slopes with user-defined covs or using unbiased step-based selection
 ### User defined covariates: Automatically put in correct phenotype of choice and covariates
